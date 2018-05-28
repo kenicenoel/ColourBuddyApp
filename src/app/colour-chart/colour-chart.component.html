@@ -1,5 +1,12 @@
-<div class="colourCard">
-  <div class="colour" *ngFor="let colour of colours" [ngStyle]="{'background':colour}">
-    {{colour}}
-  </div>
+<div class="colorCard" *ngFor="let colour of colours">
+      <div class="palette">
+       <div class="colour" [ngStyle]="{'background':colour}">
+         {{hslToHex(colour)}}
+       </div>
+      </div>
+      <footer>
+        <img class="copyIcon" src="../../assets//imgs/icons/single-copy-04.svg"/>
+      </footer>
 </div>
+
+

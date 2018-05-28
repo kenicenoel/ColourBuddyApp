@@ -1,22 +1,14 @@
-<h2>Hello World</h2>
-<app-colour-chart></app-colour-chart>
-<app-colour-chart></app-colour-chart>
-<app-colour-chart></app-colour-chart>
-<app-colour-chart></app-colour-chart>
-<app-colour-chart></app-colour-chart>
-<app-colour-chart></app-colour-chart>
-<app-colour-chart></app-colour-chart>
-<app-colour-chart></app-colour-chart>
-<app-colour-chart></app-colour-chart>
-<app-colour-chart></app-colour-chart>
-<app-colour-chart></app-colour-chart>
-<app-colour-chart></app-colour-chart>
-<app-colour-chart></app-colour-chart>
-<app-colour-chart></app-colour-chart>
-<app-colour-chart></app-colour-chart>
-<app-colour-chart></app-colour-chart>
-<app-colour-chart></app-colour-chart>
-<app-colour-chart></app-colour-chart>
+<nav class="navbar navbar-light" style="background-color: #fff;">
+    <h2 class="title">
+         <img class="logo" src="../assets/imgs/icons/paint-37.svg" alt="icon"> 
+      Colour Buddy
+    </h2>
+</nav>
+ 
 
 
-
+<section id="content">
+  <div class="container shadow" *ngFor="let chart of colourCharts; let i = index">
+    <app-colour-chart></app-colour-chart>
+  </div>
+</section>
