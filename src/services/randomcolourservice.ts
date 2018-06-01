@@ -1,9 +1,14 @@
 import { Injectable } from '@angular/core';
+import { Color } from '../app/model/color';
+import { resolve } from 'path';
 
 @Injectable()
 export class RandomColourService {
     public colorDictionary: any = {};
-
+    colours:Color[] = [];
+    colourMode:string = "../assets/imgs/icons/brightness-46.svg";
+    luminosity:string = 'bright';
+    numberOfColours:number = 4;
    constructor() {}
 
    private defineColor (name: any, hueRange: any, lowerBounds: any) {
@@ -89,6 +94,10 @@ public getRandomColor(options: any = {}) {
     // Then use S and H to determine brightness (B).
     let L = this.pickBrightness(H, S, options);
 
+    if(L == 100) 
+    {
+       L =  this.rand(0,93);
+    }
     return 'hsl(' + H + ',' + S + '%,' + L + '%)';
 }
 
@@ -292,4 +301,56 @@ private HexToHSB (hex: any): number[] {
         return hexA.toString(16)+hexB.toString(16)+hexC.toString(16);
 
     }
+
+    hslToHexV2(hsl)
+  {
+      hsl = hsl.replace('hsl(', '').replace(')', '').replace('%','');
+      let hslArray = hsl.split(',');
+  
+      var h = parseInt(hslArray[0]);
+      var s = parseInt(hslArray[1]);
+      var l = parseInt(hslArray[2]);
+  
+
+      h /= 360;
+      s /= 100;
+      l /= 100;
+      let r, g, b;
+      if (s === 0) 
+      {
+        r = g = b = l; // achromatic
+      }
+      else 
+      {
+        const hue2rgb = (p, q, t) => 
+        {
+          if (t < 0) t += 1;
+          if (t > 1) t -= 1;
+          if (t < 1 / 6) return p + (q - p) * 6 * t;
+          if (t < 1 / 2) return q;
+          if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6;
+          return p;
+        };
+        const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+        const p = 2 * l - q;
+        r = hue2rgb(p, q, h + 1 / 3);
+        g = hue2rgb(p, q, h);
+        b = hue2rgb(p, q, h - 1 / 3);
+      }
+      const toHex = x => 
+      {
+        const hex = Math.round(x * 255).toString(16);
+        return hex.length === 1 ? '0' + hex : hex;
+      };
+
+     return `#${toHex(r)}${toHex(g)}${toHex(b)}`.toUpperCase();
+      
+      
+  }
+
+  
+  toggleColourMode()
+  {
+    return Promise.resolve(this.colourMode = this.colourMode == '../assets/imgs/icons/brightness-46.svg' ? '../assets/imgs/icons/moon.svg': '../assets/imgs/icons/brightness-46.svg');
+  }
 }

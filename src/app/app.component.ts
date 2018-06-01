@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { RandomColourService } from '../services/randomcolourservice';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { Color } from './model/color';
 
 @Component({
   selector: 'app-root',
@@ -13,24 +14,26 @@ export class AppComponent {
   title = 'app';
   numberOfColourCharts = 20;
   colourCharts:any[] = [];
-  numberOfColours:Number = 4;
-  colours:string[] = [];
+  colourMode:string;
+
+
   constructor(private randomColourService:RandomColourService) 
   { 
-    for(let i = 0; i<this.numberOfColourCharts; i++)
-    {
-      this.colourCharts.push(i);
-    }
-
-    for(let i = 0; i< this.numberOfColours; i++) 
-    {
-      let colour = randomColourService.getRandomColor({
-        luminosity: 'bright'
-      });
-      this.colours.push(colour);
-    }
+   
+    this.colourMode = randomColourService.colourMode;
 
     
   }
+
+  toggleColourMode()
+  {
+    this.randomColourService.toggleColourMode()
+    .then((colourMode:string)=>
+    {
+      this.colourMode = colourMode;
+    })
+  }
+
+ 
  
 }

@@ -3,12 +3,16 @@
          <img class="logo" src="../assets/imgs/icons/paint-37.svg" alt="icon"> 
       Colour Buddy
     </h2>
+    <div class="float-right">
+      <img src = "{{ colourMode }}" height="24" (click) = "toggleColourMode()" />
+    </div>
 </nav>
  
 
 
 <section id="content">
-  <div class="container shadow" *ngFor="let chart of colourCharts; let i = index">
+  <div class="container shadow">
+    <app-colour-chart></app-colour-chart>
     <app-colour-chart></app-colour-chart>
   </div>
 </section>

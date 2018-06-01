@@ -1,7 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 @import './app/vendor/bootstrap/bootstrap.min.css';
 @import './assets/fonts/inter-ui/inter-ui.css';
-  
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
   body
   {
         background: #F6F9FB;
@@ -33,7 +33,7 @@
 {
     width: 260px;
     margin: 8px;
-    padding: 15px;
+    padding: 0;
     background: white;
     border: 1px solid #ffffff;
     border-radius: 8px;
@@ -71,14 +71,8 @@
 
 .copyIcon
 {
-    display: none;
-    float: right;
-}
-
-.copyIcon:hover
-{
-      display: inline;
-
+    display: block;
+    /* padding: 0 0 50px 0; */
 }
 
 .shadow {

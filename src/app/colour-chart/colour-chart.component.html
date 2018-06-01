@@ -1,11 +1,11 @@
-<div class="colorCard" *ngFor="let colour of colours">
-      <div class="palette">
-       <div class="colour" [ngStyle]="{'background':colour}">
-         {{hslToHex(colour)}}
-       </div>
+<div class="colorCard" *ngFor="let chart of colourCharts">
+      <div class="palette" *ngFor="let colour of colours">
+         <div class="colour" [ngStyle]="{'background':colour.hex}" [matTooltip]="colour.hex"  matTooltipPosition="left" ></div>
       </div>
       <footer>
-        <img class="copyIcon" src="../../assets//imgs/icons/single-copy-04.svg"/>
+        <button mat-button (click) ="likeColourCard(colour)" height="24px">
+          <img src="../../assets/imgs/icons/heart-2.svg" height="24px" /> {{colour?.likes}} Likes
+        </button>
       </footer>
 </div>
 

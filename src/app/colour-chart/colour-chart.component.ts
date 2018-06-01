@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { RandomColourService } from '../../services/randomcolourservice';
+import { Color } from '../model/color';
 
 @Component({
   selector: 'app-colour-chart',
@@ -9,61 +10,64 @@ import { RandomColourService } from '../../services/randomcolourservice';
 export class ColourChartComponent {
 
   numberOfColours:Number = 4;
-  colours:string[] = [];
+  colours:Color[] = [];
+  colourMode:string = "../assets/imgs/icons/brightness-46.svg";
+  luminosity:string = 'bright';
+  numberOfColourCharts = 20;
+  colourCharts:any[] = [];
   constructor(private randomColourService:RandomColourService) 
   { 
-    for(let i = 0; i< this.numberOfColours; i++) {
-      let colour = randomColourService.getRandomColor({
-        luminosity: 'bright'
-      });
-      this.colours.push(colour);
-    }
+    this.colours = [];
+    this.populateColourCharts();
+    this.generateColors();
+    
   }
 
-
-  hslToHex(hsl)
+   
+  generateId() 
   {
-      hsl = hsl.replace('hsl(', '').replace(')', '').replace('%','');
-      let hslArray = hsl.split(',');
-  
-      var h = parseInt(hslArray[0]);
-      var s = parseInt(hslArray[1]);
-      var l = parseInt(hslArray[2]);
-  
+    // Math.random should be unique because of its seeding algorithm.
+    // Convert it to base 36 (numbers + letters), and grab the first 9 characters
+    // after the decimal.
+    return '_' + Math.random().toString(36).substr(2, 9);
+  }
 
-      h /= 360;
-      s /= 100;
-      l /= 100;
-      let r, g, b;
-      if (s === 0) 
+  
+  generateColors()
+  {
+    this.luminosity = this.colourMode == '../assets/imgs/icons/brightness-46.svg' ? 'bright': 'dark';
+    for(let i = 0; i < this.numberOfColours; i++)
+    {
+      let colour = this.randomColourService.getRandomColor({
+        luminosity: this.luminosity
+      });
+
+      let clr:Color =
       {
-        r = g = b = l; // achromatic
+        id:this.generateId(),
+        hsl:colour,
+        hex:this.randomColourService.hslToHexV2(colour),
+        likes: 0
       }
-      else 
-      {
-        const hue2rgb = (p, q, t) => 
-        {
-          if (t < 0) t += 1;
-          if (t > 1) t -= 1;
-          if (t < 1 / 6) return p + (q - p) * 6 * t;
-          if (t < 1 / 2) return q;
-          if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6;
-          return p;
-        };
-        const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
-        const p = 2 * l - q;
-        r = hue2rgb(p, q, h + 1 / 3);
-        g = hue2rgb(p, q, h);
-        b = hue2rgb(p, q, h - 1 / 3);
-      }
-      const toHex = x => 
-      {
-        const hex = Math.round(x * 255).toString(16);
-        return hex.length === 1 ? '0' + hex : hex;
-      };
-      return `#${toHex(r)}${toHex(g)}${toHex(b)}`.toUpperCase();
+
+      this.colours.push(clr);
+    }
+               
+  }
+
+  likeColourCard(colour:Color)
+  {
+    colour.likes++;
+  }
+
+  populateColourCharts()
+  {
+    for(let i = 0; i < this.numberOfColourCharts; i++)
+    {
+      this.colourCharts.push(i);
     }
 
+  }
 
 }
 
